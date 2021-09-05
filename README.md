@@ -1,10 +1,14 @@
 # JadeStudio
 
 JadeStudio is a wip (currently not in progress) tool that allows you to work with Beyond Good and Evil's files.
+
 The solution contains three projects:
-JadeStudio.Core: A dynamically linked library for working with the game files
-JadeStudio.Console: A console utility for debugging the library / using parts of the library
-JadeStudio.BIG: The main utility acting as a frontend of the core library
+
+***JadeStudio.Core***: A dynamically linked library for working with the game files
+
+***JadeStudio.Console***: A console utility for debugging the library / using parts of the library
+
+***JadeStudio.BIG***: The main utility acting as a frontend of the core library
 
 ## Features
 Currently you can extract and rebuild BIG files (sally_clean.bf) which means you can change files in the game.
