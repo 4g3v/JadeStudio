@@ -20,6 +20,7 @@ There's also a text editor which allows you to look at and change all of the tex
 ## Built With
 
 * [Cyotek.Windows.Forms.ColorPickers](https://github.com/cyotek/Cyotek.Windows.Forms.ColorPicker) - Used for picking colors in the text editor
+* [Newtonsoft.Json / Json.NET](https://github.com/JamesNK/Newtonsoft.Json) - Used for parsing json
 
 ## Thanks to
 * ***Zeli*** You are the goat and you helped me so much in understanding the file formats!
