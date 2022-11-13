@@ -1,0 +1,5 @@
+struct Key
+{
+	int length;
+	int Keys[length/4] <optimize=false, format=hex>;
+} keys;

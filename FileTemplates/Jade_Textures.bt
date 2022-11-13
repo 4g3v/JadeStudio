@@ -1,0 +1,28 @@
+struct Chunk
+{
+	uint Size <bgcolor=0xFFFF00>;
+	int Unk1 <format=hex, bgcolor=0x186AFF>;
+	short Unk2 <format=hex, bgcolor=0x3C5789>;
+	short Type <format=hex, bgcolor=0xFFFFFF>;
+	short Width <bgcolor=0x36FF32>;
+	short Height <bgcolor=0x38FFB2>;
+	int Unk3 <format=hex, bgcolor=0xD000FF>;
+	int FontID <format=hex, bgcolor=0x00B7B1>;
+	int Magic1 <format=hex, bgcolor=0x040089>;
+	int Magic2 <format=hex, bgcolor=0x040089>;
+	int Magic3 <format=hex, bgcolor=0x040089>;
+	byte Data[Size - 0x20]  <format=hex, bgcolor=0xB73706>;
+} chunks[452] <read=ChunkRead, optimize=false>;
+//168
+//505
+string ChunkRead(Chunk &a)
+{
+	if (a.Magic3 == 0xC0DEC0DE && a.Magic2 == 0x00FF00FF && a.Magic1 == 0xCAD01234)
+	{
+		string s;
+		SPrintf(s, "Type: %4X | Key %08X | Res: %hix%hi", a.Type, a.Unk3, a.Width, a.Height);
+		return s;		
+	}
+
+	return "Unknown Chunk";
+}

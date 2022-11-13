@@ -1,0 +1,129 @@
+//struct Chunk
+//{
+//	uint Size <bgcolor=0xFFFF00>;
+//	byte Data[Size]  <format=hex, bgcolor=0xB73706>;
+//} chunks[5000] <optimize=false>;
+
+struct Vector2
+{
+	float X;
+	float Y;
+};
+
+typedef struct tagVector3
+{
+	float X;
+	float Y;
+	float Z;
+} Vector3 <read=VectorThreeRead>;
+
+struct Quaternion
+{
+	float X;
+	float Y;
+	float Z;
+	float W;
+};
+
+string VectorThreeRead(Vector3 &v3)
+{
+	string s;
+	SPrintf(s, "X: %f | Y: %f | Z: %f", v3.X, v3.Y, v3.Z);
+	return s;
+}
+
+struct Gao
+{
+	int Length;
+	byte Data[Length];
+};
+
+struct GaoDataStruct
+{
+	int Length;
+	if (Length == 0x6B6E732E) //.snk
+	{
+		int RealLength;
+		byte Data[RealLength];
+	}
+	else if (Length == 0x646D732E) //.smd
+	{
+		int RealLength;
+		byte Data[RealLength];
+	}
+	else
+	{
+		byte Data[Length];
+	}
+};
+
+struct Wow
+{
+	int Length;
+
+	byte Magic[4];
+	byte Data[0xC];
+	char Name[0x3C];
+
+	Quaternion Orientation[3];
+	Vector3 Position;
+	float Scale;
+
+	byte OtherData[Length - (0x4 + 0xC + 0x3C + 0x40)] <format=hex>;
+
+	int GaosLength;
+	int GaoKeys[GaosLength / 4] <format=hex>;
+	Gao Gaos[GaosLength / 4] <optimize=false>;
+
+	local int size, wowMagic = 0;
+    local int64 off = 0;
+    while (true)
+    {
+        off = FTell();
+        
+        size = ReadInt();
+        if (size == 0x6B6E732E || size == 0x646D732E)
+        {
+            FSeek(off);
+            GaoDataStruct GaoData;
+            continue;
+        }
+        FSkip(size + 4);
+        
+        if (FTell() + 4 > FileSize())
+        {
+            FSeek(off);
+            GaoDataStruct GaoData;
+            break;
+        }
+
+        wowMagic = ReadInt(FTell() + 4);
+        if (wowMagic == 0x776F772E)
+        {
+            FSeek(off);
+            GaoDataStruct GaoData;
+            break;
+        }
+        
+        FSeek(off);
+        GaoDataStruct GaoData;
+    }
+};
+
+struct WowKey
+{
+	int ID <format=hex>;
+	byte Magic[4];
+};
+
+struct MergedWowHeader
+{
+	int Length;
+	WowKey WowKeys[Length / 8];
+};
+
+struct MergedWow
+{
+	MergedWowHeader mergedWowHeader;
+	Wow wows[mergedWowHeader.Length / 8] <optimize=false>;
+} mergedWow;

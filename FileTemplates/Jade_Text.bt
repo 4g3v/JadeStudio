@@ -1,0 +1,5 @@
+struct Chunk
+{
+	uint Size <bgcolor=0xFFFF00>;
+	byte Data[Size]  <format=hex, bgcolor=0xB73706>;
+} chunks[3] <optimize=false>;

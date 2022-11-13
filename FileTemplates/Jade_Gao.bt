@@ -1,0 +1,45 @@
+struct Matrix
+{
+	float m00;
+	float m01;
+	float m02;
+	float m03;
+	float m10;
+	float m11;
+	float m12;
+	float m13;
+	float m20;
+	float m21;
+	float m22;
+	float m23;
+	float m30;
+	float m31;
+	float m32;
+	float m33;
+	int Type;
+};
+
+char Magic[4];
+int Unk1; //Ignored?
+int Flags <format=hex>;
+int VisFlags <format=hex>;
+byte Unk2; //Ignored?
+byte Unk3;
+byte Unk4;
+byte Unk5;
+byte Unk6;
+byte Unk7; //Some flags?
+
+Matrix matrix;
+
+float Unk8;
+float Unk9;
+float Unk10;
+float Unk11;
+float Unk12;
+float Unk13;
+
+int Unk14 <format=hex>;
+int Unk15 <format=hex>;
+int Unk16 <format=hex>;
+int ActionKitRelated <format=hex>;

@@ -1,0 +1,54 @@
+typedef struct tagFileOffsetAndKey
+{
+	int Offset <format=hex>;
+	int Key <format=hex>;
+} FileOffsetAndKey;
+
+typedef struct tagFileName
+{
+	int Unknown <format=hex>;
+	int Unknown2 <format=hex>;
+	int Unknown3 <format=hex>;
+	int Unknown4 <format=hex>;
+	int Unknown5 <format=hex>;
+	char FileName[64];
+} FileName;
+
+typedef struct tagBIGHeaderStruct
+{
+	char Magic[4];
+	int BFID <format=hex>;
+	int FilesCount;
+	int UnknownCount;
+	int Unknown1;
+    int Unknown2;
+    int Unknown3;
+    int Unknown4;
+	int UnknownCount2;
+	int FatsCount <format=hex>;
+	int StartKey <format=hex>;
+} BIGHeaderStruct;
+
+typedef struct tagFATHeaderStruct
+{
+	int FilesCount;
+	int Unknown <format=hex>;
+	ulong Offset <format=hex>;
+	int Unknown2 <format=hex>;
+	int Unknown3 <format=hex>;
+	int Unknown4 <format=hex>;
+} FATHeaderStruct;
+
+struct BIG
+{
+	BIGHeaderStruct BIGHeader;
+	FATHeaderStruct FATHeaders[BIGHeader.FatsCount];
+
+	FileOffsetAndKey FileOffsetsAndKeys[BIGHeader.FilesCount];
+	byte Padding[(BIGHeader.UnknownCount2 - BIGHeader.FilesCount) * 8];
+	FileName FileNames[BIGHeader.FilesCount];
+	byte Padding2[(BIGHeader.UnknownCount2 - BIGHeader.FilesCount) * 54h];
+	FileName Directories[BIGHeader.UnknownCount2];
+};
+
+BIG Bigfile;
